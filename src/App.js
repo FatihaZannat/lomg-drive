@@ -1,54 +1,38 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { createContext, useState } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import './App.css';
-import CategoryDetails from './components/Categories/CategoryDetails';
-import Contact from './components/Contact/Contact';
-import Destination from './components/Contact/Contact';
-import Home from './components/Home/Home';
-import Login from './components/Login/Login';
-import Navbar from './components/Navbar/Navbar';
-import Nomatch from './components/Nomatch/Nomatch';
-import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import React, { createContext, useState } from "react";
+import Home from "./Components/Home/Home";
+import Login from "./Components/Login/Login";
+import Headers from "./Components/Header/Headers";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Destination from "./Components/Destination/Destination";
+import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
+import { Container } from "@material-ui/core";
+import './App.css'
 
 export const UserContext = createContext();
-
-function App() {
-  const [loggedInUser, setLoggedInUser] = useState({});
+        
+const App = () => {
+    const [loggedInUser,setLoggedInUser] = useState({})
   return (
-    <div className="homepage">
-      <UserContext.Provider value={[loggedInUser, setLoggedInUser]}>
-        <Router>
-          <Navbar></Navbar>
-          <Switch>
-            <Route path="/login">
-              <Login></Login>
-            </Route>
-            <Route exact path="/home">
-              <Home></Home>
-            </Route>
-            <Route exact path="/">
-              <Home></Home>
-            </Route>
-            
-            <PrivateRoute path="/category-details/:id">
-              <CategoryDetails></CategoryDetails>
-            </PrivateRoute>
-
-            <PrivateRoute path="/destination">
-              <Destination></Destination>
-            </PrivateRoute>
-            <Route path='/contact'>
-              <Contact></Contact>
-            </Route>
-            <Route path="*">
-              <Nomatch></Nomatch>
-            </Route>
-          </Switch>
-        </Router>
-      </UserContext.Provider>
+      <Container>
+        <UserContext.Provider value={[loggedInUser,setLoggedInUser]}>
+    <div>
+      <Headers />
+      <Router>
+        <Switch>
+          <Route path="/home">
+            <Home />
+          </Route>
+          <Route path="/login">
+            <Login/>
+          </Route>
+          <PrivateRoute path="/:title">
+            <Destination/>
+          </PrivateRoute>
+        </Switch>
+      </Router>
     </div>
+    </UserContext.Provider>
+      </Container>
   );
-}
-
+};
 export default App;
